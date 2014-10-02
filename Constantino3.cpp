@@ -97,7 +97,7 @@ int diferencaMatriz(vector< vector<int> >matriz){
 
 
 void principal(vector< vector<int> > matrizatual, int movimentos){
-    std::unordered_map<string,int> closed_list;
+
     std::unordered_map<string,int> javistos;
     std::multimap<int,std::pair<vector< vector<int> >, int> > open_list;
 
@@ -128,73 +128,31 @@ void principal(vector< vector<int> > matrizatual, int movimentos){
         int x1 = x+1;
         int y0 = y-1;
         int y1 = y+1;
-
-        cout<<"Dif matriz atual: "<<difmatrizatual<<"\n";
-        cout<<"Custo desse no: "<<custoatual<<"\n";
-        cout<<"Custo TOTAL: "<<difmatrizatual + custoatual<<"\n";
-        cout<<"Custo TOTAL 2: "<<multiatual->first<<"\n\n";
-        /*
-        typedef std::multimap<int,std::pair<vector< vector<int> >, int> >::iterator Iter;
-        for (Iter it = open_list.begin(); it != open_list.end(); ) {
-                int ft = it->first;
-                std::pair<vector< vector<int> >, int>  ft2 = it->second;
-                int ft3 = ft2.second;
-                cout<<"Custo teste: "<<ft<<" Altura: "<<ft3<<"\n";
-                it++;
-        }
-        */
-
-
         if (difmatrizatual== 0){
             cout<<"Custo: "<<custoatual<<"\n";
             break;
         }
-
         if(x0>=0){
 
             vector< vector<int> > matriz(4, vector<int>(4));
-
-
             matriz = matrizatualx;
             matriz[x][y] = matrizatualx[x0][y];
             matriz[x0][y] = matrizatualx[x][y];
             string possibilidade = transformaMatrizString(matriz);
-
-            std::unordered_map<string,int>::iterator got1 = closed_list.find(possibilidade);
             std::unordered_map<string,int>::iterator visto = javistos.find(possibilidade);
             int custoateaqui = diferencaMatriz(matriz) + custoatual + 1;
+            if (visto==javistos.end()){
+                std::pair<vector< vector<int> >, int> segundoargumento;
+                segundoargumento = std::make_pair(matriz, custoatual + 1);
+                std::pair<int, std::pair<vector< vector<int> >, int> > inserir;
+                inserir = std::make_pair(custoateaqui, segundoargumento);
+                open_list.insert(inserir);
 
-
-            if (got1==closed_list.end()){
-                if (visto==javistos.end()){
-
-
-
-
-                    std::pair<vector< vector<int> >, int> segundoargumento;
-                    segundoargumento = std::make_pair(matriz, custoatual + 1);
-                    std::pair<int, std::pair<vector< vector<int> >, int> > inserir;
-                    inserir = std::make_pair(custoateaqui, segundoargumento);
-                    open_list.insert(inserir);
-
-                    std::pair<string, int> vistoadicionar;
-                    vistoadicionar = std::make_pair(possibilidade, custoateaqui);
-                    javistos.insert(vistoadicionar);
-                }
-                else{
-                    /*
-                    cout<<"Repetido!"<<"\n";
-                    cout<<"Valor registrado: "<<visto->second<<"\n";
-                    cout<<"Valor atual: "<<custoateaqui<<"\n";
-                    int opt;
-                    cin>>opt;
-                    if (opt== 1){
-                        break;
-                    }
-                    */
-                }
-
+                std::pair<string, int> vistoadicionar;
+                vistoadicionar = std::make_pair(possibilidade, custoateaqui);
+                javistos.insert(vistoadicionar);
             }
+
         }
         if(x1<=3){
             vector< vector<int> > matriz(4, vector<int>(4));
@@ -202,40 +160,21 @@ void principal(vector< vector<int> > matrizatual, int movimentos){
             matriz[x][y] = matrizatualx[x1][y];
             matriz[x1][y] = matrizatualx[x][y];
             string possibilidade = transformaMatrizString(matriz);
-            std::unordered_map<string,int>::iterator got1 = closed_list.find(possibilidade);
+
             std::unordered_map<string,int>::iterator visto = javistos.find(possibilidade);
             int custoateaqui = diferencaMatriz(matriz) + custoatual + 1;
+            if (visto==javistos.end()){
+                std::pair<vector< vector<int> >, int> segundoargumento;
+                segundoargumento = std::make_pair(matriz, custoatual + 1);
+                std::pair<int, std::pair<vector< vector<int> >, int> > inserir;
+                inserir = std::make_pair(custoateaqui, segundoargumento);
+                open_list.insert(inserir);
 
-            if (got1==closed_list.end()){
-                if (visto==javistos.end()){
-
-
-
-
-                    std::pair<vector< vector<int> >, int> segundoargumento;
-                    segundoargumento = std::make_pair(matriz, custoatual + 1);
-                    std::pair<int, std::pair<vector< vector<int> >, int> > inserir;
-                    inserir = std::make_pair(custoateaqui, segundoargumento);
-                    open_list.insert(inserir);
-
-                    std::pair<string, int> vistoadicionar;
-                    vistoadicionar = std::make_pair(possibilidade, custoateaqui);
-                    javistos.insert(vistoadicionar);
-                }
-                else{
-                    /*
-                    cout<<"Repetido!"<<"\n";
-                    cout<<"Valor registrado: "<<visto->second<<"\n";
-                    cout<<"Valor atual: "<<custoateaqui<<"\n";
-                    int opt;
-                    cin>>opt;
-                    if (opt== 1){
-                        break;
-                    }
-                    */
-                }
-
+                std::pair<string, int> vistoadicionar;
+                vistoadicionar = std::make_pair(possibilidade, custoateaqui);
+                javistos.insert(vistoadicionar);
             }
+
         }
         if(y0>=0){
             vector< vector<int> > matriz(4, vector<int>(4));
@@ -243,40 +182,21 @@ void principal(vector< vector<int> > matrizatual, int movimentos){
             matriz[x][y] = matrizatualx[x][y0];
             matriz[x][y0] = matrizatualx[x][y];
             string possibilidade = transformaMatrizString(matriz);
-            std::unordered_map<string,int>::iterator got1 = closed_list.find(possibilidade);
+
             std::unordered_map<string,int>::iterator visto = javistos.find(possibilidade);
             int custoateaqui = diferencaMatriz(matriz) + custoatual + 1;
+            if (visto==javistos.end()){
+                std::pair<vector< vector<int> >, int> segundoargumento;
+                segundoargumento = std::make_pair(matriz, custoatual + 1);
+                std::pair<int, std::pair<vector< vector<int> >, int> > inserir;
+                inserir = std::make_pair(custoateaqui, segundoargumento);
+                open_list.insert(inserir);
 
-            if (got1==closed_list.end()){
-                if (visto==javistos.end()){
-
-
-
-
-                    std::pair<vector< vector<int> >, int> segundoargumento;
-                    segundoargumento = std::make_pair(matriz, custoatual + 1);
-                    std::pair<int, std::pair<vector< vector<int> >, int> > inserir;
-                    inserir = std::make_pair(custoateaqui, segundoargumento);
-                    open_list.insert(inserir);
-
-                    std::pair<string, int> vistoadicionar;
-                    vistoadicionar = std::make_pair(possibilidade, custoateaqui);
-                    javistos.insert(vistoadicionar);
-                }
-                else{
-                    /*
-                    cout<<"Repetido!"<<"\n";
-                    cout<<"Valor registrado: "<<visto->second<<"\n";
-                    cout<<"Valor atual: "<<custoateaqui<<"\n";
-                    int opt;
-                    cin>>opt;
-                    if (opt== 1){
-                        break;
-                    }
-                    */
-                }
-
+                std::pair<string, int> vistoadicionar;
+                vistoadicionar = std::make_pair(possibilidade, custoateaqui);
+                javistos.insert(vistoadicionar);
             }
+
         }
         if(y1<=3){
             vector< vector<int> > matriz(4, vector<int>(4));
@@ -284,53 +204,20 @@ void principal(vector< vector<int> > matrizatual, int movimentos){
             matriz[x][y] = matrizatualx[x][y1];
             matriz[x][y1] = matrizatualx[x][y];
             string possibilidade = transformaMatrizString(matriz);
-            std::unordered_map<string,int>::iterator got1 = closed_list.find(possibilidade);
+
             std::unordered_map<string,int>::iterator visto = javistos.find(possibilidade);
             int custoateaqui = diferencaMatriz(matriz) + custoatual + 1;
+            if (visto==javistos.end()){
+                std::pair<vector< vector<int> >, int> segundoargumento;
+                segundoargumento = std::make_pair(matriz, custoatual + 1);
+                std::pair<int, std::pair<vector< vector<int> >, int> > inserir;
+                inserir = std::make_pair(custoateaqui, segundoargumento);
+                open_list.insert(inserir);
 
-            if (got1==closed_list.end()){
-                if (visto==javistos.end()){
-
-
-
-
-                    std::pair<vector< vector<int> >, int> segundoargumento;
-                    segundoargumento = std::make_pair(matriz, custoatual + 1);
-                    std::pair<int, std::pair<vector< vector<int> >, int> > inserir;
-                    inserir = std::make_pair(custoateaqui, segundoargumento);
-                    open_list.insert(inserir);
-
-                    std::pair<string, int> vistoadicionar;
-                    vistoadicionar = std::make_pair(possibilidade, custoateaqui);
-                    javistos.insert(vistoadicionar);
-                }
-                else{
-                        /*
-                    cout<<"Repetido!"<<"\n";
-                    cout<<"Valor registrado: "<<visto->second<<"\n";
-                    cout<<"Valor atual: "<<custoateaqui<<"\n";
-                    int opt;
-                    cin>>opt;
-                    if (opt== 1){
-                        break;
-                    }
-                    */
-                }
-
+                std::pair<string, int> vistoadicionar;
+                vistoadicionar = std::make_pair(possibilidade, custoateaqui);
+                javistos.insert(vistoadicionar);
             }
-        }
-
-        if (closed_list.empty()){
-            string atualstring = transformaMatrizString(matrizatualx);
-            std::pair<std::string,int> estadofinalizado;
-            estadofinalizado = make_pair(atualstring, 0);
-            closed_list.insert(estadofinalizado);
-            }
-        else{
-            string atualstring = transformaMatrizString(matrizatualx);
-            std::pair<std::string,int> estadofinalizado;
-            estadofinalizado = make_pair(atualstring, custoatual + 1);
-            closed_list.insert(estadofinalizado);
         }
 
         open_list.erase(multiatual);
@@ -373,6 +260,6 @@ int main(int argc, char** argv) {
                                    {6, 11, 3, 1},
                                    {8, 2, 15, 12}};
 
-    principal(caso4, 0);
+    principal(caso1, 0);
     return 0;
 }
